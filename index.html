@@ -265,17 +265,104 @@
         <div style="font-size: 14px; color: #8e8e8e;">Soporte de Hardware</div>
     </div>
 <!-- LÓGICA JAVASCRIPT ACTUALIZADA -->
+<div id="seccion-2d" style="display: none; padding: 20px; font-family: system-ui, -apple-system, sans-serif; max-width: 1000px; margin: 0 auto;">
+    
+    <button onclick="volverAlInicio()" style="background-color: #ffffff; border: 1px solid #0066cc; color: #0066cc; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.9rem; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; margin-bottom: 25px;">
+        ← Volver al Menú Principal
+    </button>
+
+    <h2 style="color: #262626; margin-bottom: 5px;">Configuración de Lectores 2D / QR (Muestra 3NSTAR)</h2>
+    <p style="color: #666666; margin-bottom: 30px;">Seleccioná la configuración que necesitás aplicar y escaneá el código QR que aparecerá en pantalla.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 25px;">
+        
+        <div style="background: #ffffff; border: 1px solid #dbdbdb; border-radius: 8px; padding: 20px;">
+            <h3 style="color: #0066cc; margin-top: 0; border-bottom: 2px solid #f0f0f0; padding-bottom: 8px;">1. Interfaz y Teclado</h3>
+            <p style="color: #777; font-size: 0.9rem;">Seteos fundamentales de comunicación.</p>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <button onclick="abrirQR('Activar Modo USB Virtual COM (3NSTAR)', 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=%25%25SPEC-VID10C4PIDEA60')" class="btn-config">Activar Modo USB Virtual COM (Serial)</button>
+                <button onclick="abrirQR('Configurar Idioma: Español (3NSTAR)', 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=%25%25LANG-SPANISH')" class="btn-config">Configurar Idioma del Teclado (Español)</button>
+            </div>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #dbdbdb; border-radius: 8px; padding: 20px;">
+            <h3 style="color: #0066cc; margin-top: 0; border-bottom: 2px solid #f0f0f0; padding-bottom: 8px;">2. Modos de Disparo</h3>
+            <p style="color: #777; font-size: 0.9rem;">Comodidad de laburo según el puesto.</p>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <button onclick="abrirQR('Modo Continuo / Presentación (3NSTAR)', 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=%25%25SCAN-MODE-CONTINUOUS')" class="btn-config">Modo Continuo / Presentación (Manos Libres)</button>
+                <button onclick="abrirQR('Modo Gatillo Manual (3NSTAR)', 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=%25%25SCAN-MODE-TRIGGER')" class="btn-config">Modo Gatillo Manual (Trigger)</button>
+            </div>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #dbdbdb; border-radius: 8px; padding: 20px;">
+            <h3 style="color: #0066cc; margin-top: 0; border-bottom: 2px solid #f0f0f0; padding-bottom: 8px;">3. Simbologías Específicas</h3>
+            <p style="color: #777; font-size: 0.9rem;">Prender o apagar decodificaciones del chip.</p>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <button onclick="abrirQR('Habilitar PDF417 (3NSTAR)', 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=%25%25SYM-PDF417-ENABLE')" class="btn-config" style="border-color: #ff003c; color: #ff003c;">🔥 Habilitar PDF417 (DNI Argentino)</button>
+                <button onclick="abrirQR('Habilitar DataMatrix (3NSTAR)', 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=%25%25SYM-DATAMATRIX-ENABLE')" class="btn-config">Habilitar DataMatrix (Fármacos / Importación)</button>
+                <button onclick="abrirQR('Optimizar para Pantallas (3NSTAR)', 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=%25%25SCREEN-READ-OPTIMIZE')" class="btn-config">Optimizar para Pantallas (Mercado Pago / Billeteras)</button>
+            </div>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #dbdbdb; border-radius: 8px; padding: 20px;">
+            <h3 style="color: #0066cc; margin-top: 0; border-bottom: 2px solid #f0f0f0; padding-bottom: 8px;">4. Sufijos y Prefijos</h3>
+            <p style="color: #777; font-size: 0.9rem;">Automatización de saltos de línea y carga.</p>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <button onclick="abrirQR('Agregar ENTER Automático (3NSTAR)', 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=%25%25SUF-ENTER-CRLF')" class="btn-config">Agregar ENTER (Carriage Return) automático</button>
+                <button onclick="abrirQR('Agregar TAB Automático (3NSTAR)', 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=%25%25SUF-TAB-HT')" class="btn-config">Agregar TAB (Tabulador) automático</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="modal-qr" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center;">
+    <div style="background: white; padding: 30px; border-radius: 12px; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.3); position: relative;">
+        <h3 id="modal-titulo" style="margin-top: 0; color: #262626; font-size: 1.2rem; margin-bottom: 20px;">Configuración</h3>
+        
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; display: inline-block; border: 1px solid #eee;">
+            <img id="modal-imagen" src="" alt="Código QR de Configuración" style="width: 250px; height: 250px; display: block;">
+        </div>
+        
+        <p style="color: #666; font-size: 0.9rem; margin-top: 15px; margin-bottom: 20px;">Apuntá con el lector al código QR hasta escuchar el "bip".</p>
+        
+        <button onclick="cerrarQR()" style="background: #262626; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; font-size: 1rem;">Cerrar Código</button>
+    </div>
+</div>
+
+<style>
+    .btn-config {
+        background: #fdfdfd;
+        border: 1px solid #cbd5e1;
+        padding: 12px 15px;
+        border-radius: 6px;
+        text-align: left;
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: #334155;
+        cursor: pointer;
+        transition: all 0.15s ease;
+    }
+    .btn-config:hover {
+        background: #f1f5f9;
+        border-color: #94a3b8;
+        transform: translateX(3px);
+    }
+</style>
+
 <script>
     function seleccionarTecnologia(tipo) {
-        // Oculta la pantalla de inicio
+        // Oculta el asistente de bienvenida principal
         document.getElementById('pantalla-inicio').style.display = 'none';
         
         if (tipo === '1d') {
-            console.log("Cargando opciones para lectores 1D...");
-            // Tu código para mostrar la sección 1D va acá
+            document.getElementById('seccion-2d').style.display = 'none';
+            console.log("Abriendo panel 1D...");
+            // Si tenés una sección o div para 1D, podés poner su .style.display = 'block' acá
         } else if (tipo === '2d') {
-            console.log("Cargando opciones para lectores 2D...");
-            // Tu código para mostrar la sección 2D va acá
+            // Muestra la nueva sección interactiva 2D unificada
+            document.getElementById('seccion-2d').style.display = 'block';
+            console.log("Abriendo panel 2D (3NSTAR)...");
         }
     }
 
@@ -283,15 +370,29 @@
         document.getElementById('pantalla-inicio').style.display = 'none';
         if (tipo === 'enter') {
             console.log("Yendo a ENTER automático");
+            // Acá podés disparar la lógica directa para el enter automático
         } else if (tipo === 'fabrica') {
             console.log("Yendo a Reset de Fábrica");
+            // Acá podés disparar el salto al QR de fábrica
         }
     }
 
-    // NUEVA FUNCIÓN: Vuelve a mostrar la pantalla de bienvenida
     function volverAlInicio() {
+        // Apaga la sección de 2D y enciende la bienvenida interactiva con el láser
+        document.getElementById('seccion-2d').style.display = 'none';
         document.getElementById('pantalla-inicio').style.display = 'flex';
-        console.log("Regresando al Asistente de Inicio...");
+        console.log("Regresando al menú de bienvenida...");
+    }
+
+    // Funciones del Modal interactivo para renderizar los QR de 3NSTAR
+    function abrirQR(titulo, urlImagen) {
+        document.getElementById('modal-titulo').innerText = titulo;
+        document.getElementById('modal-imagen').src = urlImagen;
+        document.getElementById('modal-qr').style.display = 'flex';
+    }
+
+    function cerrarQR() {
+        document.getElementById('modal-qr').style.display = 'none';
     }
 </script>
     <!-- Layout principal -->
