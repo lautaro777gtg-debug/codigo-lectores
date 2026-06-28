@@ -259,14 +259,23 @@
     }
 </style>
 
-<!-- LÓGICA JAVASCRIPT PARA OCULTAR LA PANTALLA -->
+    <!-- Navbar superior con tu marca -->
+    <div class="navbar">
+        <div class="brand">🔷 Fullstock <span class="tag-app">Utility</span></div>
+        <div style="font-size: 14px; color: #8e8e8e;">Soporte de Hardware</div>
+    </div>
+<!-- LÓGICA JAVASCRIPT ACTUALIZADA -->
 <script>
     function seleccionarTecnologia(tipo) {
+        // Oculta la pantalla de inicio
         document.getElementById('pantalla-inicio').style.display = 'none';
+        
         if (tipo === '1d') {
             console.log("Cargando opciones para lectores 1D...");
+            // Tu código para mostrar la sección 1D va acá
         } else if (tipo === '2d') {
             console.log("Cargando opciones para lectores 2D...");
+            // Tu código para mostrar la sección 2D va acá
         }
     }
 
@@ -278,13 +287,13 @@
             console.log("Yendo a Reset de Fábrica");
         }
     }
-</script>
-    <!-- Navbar superior con tu marca -->
-    <div class="navbar">
-        <div class="brand">🔷 Fullstock <span class="tag-app">Utility</span></div>
-        <div style="font-size: 14px; color: #8e8e8e;">Soporte de Hardware</div>
-    </div>
 
+    // NUEVA FUNCIÓN: Vuelve a mostrar la pantalla de bienvenida
+    function volverAlInicio() {
+        document.getElementById('pantalla-inicio').style.display = 'flex';
+        console.log("Regresando al Asistente de Inicio...");
+    }
+</script>
     <!-- Layout principal -->
     <div class="main-layout">
         
