@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullstock - Configuración de Lectores</title>
+    <!-- Librería para generar los códigos de barras de forma limpia -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fafafa;
+            color: #262626;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Barra de navegación superior */
+        .navbar {
+            width: 100%;
+            background: #ffffff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #dbdbdb;
+        }
+
+        .brand {
+            font-weight: 700;
+            font-size: 20px;
+            color: #0066cc;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tag-app {
+            background: #e6f2ff;
+            color: #0066cc;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Contenedor de la estructura principal */
+        .main-layout {
+            max-width: 1000px;
+            width: 95%;
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Panel izquierdo para botones */
+        .sidebar {
+            background: #ffffff;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #4a4a4a;
+            font-weight: 600;
+        }
+
+        .action-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-item {
+            background: #ffffff;
+            border: 1px solid #dbdbdb;
+            padding: 14px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            color: #262626;
+        }
+
+        .action-item:hover {
+            background: #f7f7f7;
+            border-color: #b5b5b5;
+        }
+
+        .action-item.active {
+            background: #0066cc;
+            color: #ffffff;
+            border-color: #0066cc;
+        }
+
+        /* Espacio de trabajo derecho (Visor) */
+        .workspace {
+            background: #ffffff;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        .preview-box {
+            border: 2px dashed #0066cc;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 6px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .preview-placeholder {
+            color: #8e8e8e;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        #barcode {
+            margin: 24px 0;
+            max-width: 100%;
+        }
+
+        .print-tip {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #8e8e8e;
+            text-align: center;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar superior con tu marca -->
+    <div class="navbar">
+        <div class="brand">🔷 Fullstock <span class="tag-app">Utility</span></div>
+        <div style="font-size: 14px; color: #8e8e8e;">Soporte de Hardware</div>
+    </div>
+
+    <!-- Layout principal -->
+    <div class="main-layout">
+        
+        <!-- Panel de acciones a la izquierda -->
+        <div class="sidebar">
+            <h2>Acciones de Configuración</h2>
+            <div class="action-list">
+                <button class="action-item" onclick="cargarCodigo(this, 'Restablecer Lector (Factory Reset)', '000101')">
+                    🔄 Resetear a valores de fábrica
+                </button>
+                <button class="action-item" onclick="cargarCodigo(this, 'Establecer Sufijo ENTER (CRLF)', '013102')">
+                    ↩️ Habilitar Enter automático
+                </button>
+                <button class="action-item" onclick="cargarCodigo(this, 'Idioma de entrada: Español', '020203')">
+                    🇪🇸 Configurar idioma Español
+                </button>
+            </div>
+        </div>
+
+        <!-- Visor del código de barras interactivo a la derecha -->
+        <div class="workspace">
+            <!-- Texto inicial -->
+            <div id="placeholder" class="preview-placeholder">
+                <p>👈 Seleccioná una acción del panel lateral para generar el código de barras en pantalla.</p>
+            </div>
+
+            <!-- Contenedor del código dinámico -->
+            <div id="preview" class="preview-box">
+                <h3 id="preview-title" style="font-size: 16px; color: #0066cc;"></h3>
+                <svg id="barcode"></svg>
+                <p class="print-tip">💡 <b>Tip:</b> Si tu lector es 1D (línea roja fija) y le cuesta leer el monitor, subí el brillo de tu pantalla al máximo o imprimí esta hoja.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function cargarCodigo(btn, titulo, comando) {
+            // Cambiar estado visual del botón seleccionado
+            const items = document.querySelectorAll('.action-item');
+            items.forEach(item => item.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Ocultar el texto guía y mostrar el contenedor del código
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('preview').style.display = 'flex';
+
+            // Cambiar el título de la acción elegida
+            document.getElementById('preview-title').innerText = "Apuntá tu lector: " + titulo;
+
+            // Renderizar el código usando JsBarcode
+            JsBarcode("#barcode", comando, {
+                format: "CODE128",
+                width: 2.4,
+                height: 90,
+                displayValue: true,
+                fontSize: 14,
+                background: "#ffffff"
+            });
+        }
+    </script>
+</body>
+</html>
