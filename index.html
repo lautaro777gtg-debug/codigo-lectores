@@ -162,7 +162,123 @@
     </style>
 </head>
 <body>
+<!-- PANTALLA DE INICIO: ASISTENTE FULLSTOCK CON LÁSER INTERACTIVO -->
+<div id="pantalla-inicio" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #f7f7f7; font-family: system-ui, -apple-system, sans-serif; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; overflow: hidden;">
+    
+    <!-- Contenedor del Logo y el Emisor Láser -->
+    <div style="position: absolute; top: 25px; left: 25px; display: inline-block;">
+        <img src="logo.png" alt="Logo Fullstock" style="height: 45px; width: auto; object-fit: contain; position: relative; z-index: 10;">
+        
+        <!-- Línea Láser Neón (Pivota desde la base del logo) -->
+        <div class="laser-escaneo"></div>
+    </div>
 
+    <!-- Contenedor Principal Centrado -->
+    <div style="text-align: center; max-width: 700px; width: 100%;">
+        <h1 style="color: #262626; font-size: 2rem; margin-bottom: 10px; font-weight: 700;">🛠️ Asistente de Configuración Fullstock</h1>
+        <p style="color: #666666; font-size: 1.1rem; margin-bottom: 40px;">Paso 1: Seleccioná la tecnología de tu lector</p>
+
+        <!-- Contenedor de Tarjetas (Cards) -->
+        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px;">
+              
+            <!-- Tarjeta 1D -->
+            <div onclick="seleccionarTecnologia('1d')" class="tarjeta-inicio" style="background: #ffffff; border: 1px solid #dbdbdb; border-radius: 8px; padding: 25px; width: 280px; text-align: left; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <div style="font-size: 2rem; margin-bottom: 15px;">█║▌║║█║</div>
+                <h3 style="color: #0066cc; margin: 0 0 10px 0; font-size: 1.3rem;">Lector 1D</h3>
+                <p style="color: #555555; margin: 0; font-size: 0.95rem; line-height: 1.4;">Líneas tradicionales. <br><small style="color: #888888;">Ej: Código de barras de productos de almacén, golosinas.</small></p>
+            </div>
+
+            <!-- Tarjeta 2D -->
+            <div onclick="seleccionarTecnologia('2d')" class="tarjeta-inicio" style="background: #ffffff; border: 1px solid #dbdbdb; border-radius: 8px; padding: 25px; width: 280px; text-align: left; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <div style="font-size: 2rem; margin-bottom: 15px;">▚▞</div>
+                <h3 style="color: #0066cc; margin: 0 0 10px 0; font-size: 1.3rem;">Lector 2D / QR</h3>
+                <p style="color: #555555; margin: 0; font-size: 0.95rem; line-height: 1.4;">Cuadrados. <br><small style="color: #888888;">Ej: Códigos QR, Mercado Pago, DNI argentino.</small></p>
+            </div>
+
+        </div>
+
+        <!-- Accesos Rápidos Inferiores -->
+        <div style="border-top: 1px solid #e5e5e5; padding-top: 25px; color: #666666; font-size: 0.95rem;">
+            <span>¿Buscás algo rápido?</span>
+            <div style="margin-top: 10px; display: flex; gap: 15px; justify-content: center;">
+                <button onclick="accionRapida('enter')" style="background: none; border: none; color: #0066cc; font-weight: 600; cursor: pointer; text-decoration: underline; font-size: 0.95rem;">[Configurar ENTER automático]</button>
+                <span style="color: #ccc;">•</span>
+                <button onclick="accionRapida('fabrica')" style="background: none; border: none; color: #0066cc; font-weight: 600; cursor: pointer; text-decoration: underline; font-size: 0.95rem;">[Resetear a Fábrica]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ESTILOS INTERACTIVOS Y ANIMACIÓN DEL LÁSER -->
+<style>
+    /* Efecto Hover para las tarjetas */
+    .tarjeta-inicio:hover {
+        border-color: #0066cc !important;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 102, 204, 0.08) !important;
+    }
+
+    /* Configuración del Rayo Láser */
+    .laser-escaneo {
+        position: absolute;
+        top: 45px; /* Nace justo abajo del logo */
+        left: 50%;
+        width: 4px;
+        height: 150vw; /* Largo suficiente para cruzar la pantalla */
+        background-color: #ff003c;
+        box-shadow: 0 0 12px #ff003c, 0 0 25px #ff003c;
+        opacity: 0;
+        
+        /* Define el punto de rotación (arriba al centro del rayo) */
+        transform-origin: top center;
+        
+        /* Ejecuta la animación: dura 2.5 segundos, se repite exactamente 2 veces y frena */
+        animation: barridoLaser 2.5s ease-in-out 2;
+    }
+
+    /* Animación del giro en 180 grados (Efecto abanico) */
+    @keyframes barridoLaser {
+        0% {
+            transform: rotate(-90deg);
+            opacity: 0;
+        }
+        5% {
+            opacity: 1; /* Se enciende rápido al arrancar */
+        }
+        50% {
+            transform: rotate(90deg); /* Va hasta el otro extremo (180° totales) */
+            opacity: 1;
+        }
+        95% {
+            opacity: 1;
+        }
+        100% {
+            transform: rotate(-90deg); /* Vuelve al inicio */
+            opacity: 0; /* Se apaga al terminar el ciclo */
+        }
+    }
+</style>
+
+<!-- LÓGICA JAVASCRIPT PARA OCULTAR LA PANTALLA -->
+<script>
+    function seleccionarTecnologia(tipo) {
+        document.getElementById('pantalla-inicio').style.display = 'none';
+        if (tipo === '1d') {
+            console.log("Cargando opciones para lectores 1D...");
+        } else if (tipo === '2d') {
+            console.log("Cargando opciones para lectores 2D...");
+        }
+    }
+
+    function accionRapida(tipo) {
+        document.getElementById('pantalla-inicio').style.display = 'none';
+        if (tipo === 'enter') {
+            console.log("Yendo a ENTER automático");
+        } else if (tipo === 'fabrica') {
+            console.log("Yendo a Reset de Fábrica");
+        }
+    }
+</script>
     <!-- Navbar superior con tu marca -->
     <div class="navbar">
         <div class="brand">🔷 Fullstock <span class="tag-app">Utility</span></div>
